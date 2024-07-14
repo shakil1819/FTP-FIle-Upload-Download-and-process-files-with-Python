@@ -80,4 +80,11 @@ def move_to_trash(filepath):
         shutil.move(filepath, destination)
         print(f"Moved to Trash: {filepath} to {destination}")
     except Exception as e:
-        print(f"Error moving file to trash {filepath}: {e}")    
+        print(f"Error moving file to trash {filepath}: {e}")
+
+def on_new_file(event):
+    if event.is_directory or not event.src_path.endswith('.xml'):
+        return
+    print(f"New file in LOCAL_DIR: {event.src_path}")
+    data = process_xml_file(event.src_path)
+    move_to_trash(event.src_path)
