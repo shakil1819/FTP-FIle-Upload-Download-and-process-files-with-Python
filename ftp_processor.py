@@ -73,3 +73,11 @@ def process_xml_file(filepath):
     except ET.ParseError as e:
         print(f"Error parsing XML file {filepath}: {e}")
         return {}
+
+def move_to_trash(filepath):
+    try:
+        destination = os.path.join(TRASH_DIR, os.path.basename(filepath))
+        shutil.move(filepath, destination)
+        print(f"Moved to Trash: {filepath} to {destination}")
+    except Exception as e:
+        print(f"Error moving file to trash {filepath}: {e}")    
