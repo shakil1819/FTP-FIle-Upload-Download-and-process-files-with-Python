@@ -38,4 +38,12 @@ def download_file(filepath):
             print(f"Downloaded: {local_temp_filename}")
             move_to_local(local_temp_filename)
     except Exception as e:
-        print(f"Error downloading file {filepath}: {e}")        
+        print(f"Error downloading file {filepath}: {e}")
+        
+def move_to_local(filepath):
+    try:
+        destination = os.path.join(LOCAL_DIR, os.path.basename(filepath))
+        shutil.move(filepath, destination)
+        print(f"Moved: {filepath} to {destination}")
+    except Exception as e:
+        print(f"Error moving file {filepath}: {e}")
