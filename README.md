@@ -6,6 +6,8 @@ This project provides a complete solution to download, process, and manage XML f
 
 Follow these steps to set up and run the project:
 
+ 0. `git clone https://github.com/shakil1819/FTP-FIle-Upload-Download-and-process-files-with-Python.git`
+
 ### 1. Run Docker Compose
 
 First, ensure you have Docker and Docker Compose installed on your system. Then, start the FTP server using Docker Compose:
