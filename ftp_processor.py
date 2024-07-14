@@ -88,3 +88,26 @@ def on_new_file(event):
     print(f"New file in LOCAL_DIR: {event.src_path}")
     data = process_xml_file(event.src_path)
     move_to_trash(event.src_path)
+
+class LocalFolderHandler(FileSystemEventHandler):
+    def on_created(self, event):
+        on_new_file(event)
+
+if __name__ == "__main__":
+    # Start monitoring the FTP server
+    ftp_thread = threading.Thread(target=monitor_ftp)
+    ftp_thread.daemon = True
+    ftp_thread.start()
+
+    # Start monitoring the LOCAL_DIR
+    local_observer = Observer()
+    event_handler = LocalFolderHandler()
+    local_observer.schedule(event_handler, LOCAL_DIR, recursive=False)
+    local_observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        local_observer.stop()
+    local_observer.join()
