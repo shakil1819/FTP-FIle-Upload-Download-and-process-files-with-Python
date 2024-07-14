@@ -61,4 +61,15 @@ def monitor_ftp():
                             download_file(file)
         except Exception as e:
             print(f"Error connecting to FTP server: {e}")
-        time.sleep(10)        
+        time.sleep(10)
+
+def process_xml_file(filepath):
+    try:
+        tree = ET.parse(filepath)
+        root = tree.getroot()
+        data = {child.tag: child.text for child in root}
+        print(f"Processed XML to Dictionary: {data}")
+        return data
+    except ET.ParseError as e:
+        print(f"Error parsing XML file {filepath}: {e}")
+        return {}
