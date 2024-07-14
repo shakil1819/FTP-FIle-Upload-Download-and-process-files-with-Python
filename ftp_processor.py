@@ -39,7 +39,7 @@ def download_file(filepath):
             move_to_local(local_temp_filename)
     except Exception as e:
         print(f"Error downloading file {filepath}: {e}")
-        
+
 def move_to_local(filepath):
     try:
         destination = os.path.join(LOCAL_DIR, os.path.basename(filepath))
@@ -47,3 +47,18 @@ def move_to_local(filepath):
         print(f"Moved: {filepath} to {destination}")
     except Exception as e:
         print(f"Error moving file {filepath}: {e}")
+
+def monitor_ftp():
+    while True:
+        try:
+            with ftplib.FTP(FTP_HOST, FTP_USER, FTP_PASS) as ftp:
+                ftp.cwd('/')
+                files = ftp.nlst()
+                for file in files:
+                    if file.endswith('.xml'):
+                        local_temp_filename = os.path.join(TEMP_DIR, file)
+                        if not os.path.exists(local_temp_filename):
+                            download_file(file)
+        except Exception as e:
+            print(f"Error connecting to FTP server: {e}")
+        time.sleep(10)        
